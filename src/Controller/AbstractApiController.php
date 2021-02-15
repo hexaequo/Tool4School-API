@@ -4,13 +4,14 @@
 namespace App\Controller;
 
 
+use App\Exception\Request\WrongContentTypeException;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractApiController
 {
     public function checkContentType(Request $request, $contentType = 'application/json') {
         if($request->headers->get('Content-Type') != $contentType) {
-            //TODO: throw an exception
+            throw new WrongContentTypeException($contentType);
         }
     }
 
