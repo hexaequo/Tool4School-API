@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Exception\Request\JsonNotParsableException;
 use App\Exception\Request\WrongContentTypeException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,7 +23,7 @@ abstract class AbstractApiController
         $data = json_decode($body,true);
 
         if(!$data) {
-            //TODO: throw an exception
+            throw new JsonNotParsableException();
         }
 
         return $data;
