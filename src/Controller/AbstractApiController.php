@@ -7,9 +7,11 @@ namespace App\Controller;
 use App\Exception\Request\JsonNotParsableException;
 use App\Exception\Request\MissingDataException;
 use App\Exception\Request\WrongContentTypeException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class AbstractApiController
+abstract class AbstractApiController extends AbstractController
 {
     public function checkContentType(Request $request, $contentType = 'application/json') {
         if($request->headers->get('Content-Type') != $contentType) {
@@ -33,5 +35,12 @@ abstract class AbstractApiController
     public function generateRequestId($type = null) {
         if($type) return uniqid($type.'_');
         return uniqid();
+    }
+
+    public function generateAsyncResponse(string $id) {
+        return new JsonResponse([
+            'id' => $id,
+            'href' => '/job/'.$id
+        ],202);
     }
 }
