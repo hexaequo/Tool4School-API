@@ -44,4 +44,9 @@ abstract class AbstractApiController
 
         if(!empty($missingFields)) throw new MissingDataException($missingFields);
     }
+
+    public function generateRequestId($type = null) {
+        if($type) return uniqid($type.'_');
+        return uniqid();
+    }
 }
