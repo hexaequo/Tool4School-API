@@ -30,21 +30,6 @@ abstract class AbstractApiController
         return $data;
     }
 
-    public function checkFields(array $data, array $requiredFields) {
-        foreach ($requiredFields as $key => $field) {
-            if(isset($data[$field])) {
-                unset($requiredFields[$key]);
-            }
-        }
-
-        $missingFields = [];
-        foreach ($requiredFields as $field) {
-            $missingFields[] = $field;
-        }
-
-        if(!empty($missingFields)) throw new MissingDataException($missingFields);
-    }
-
     public function generateRequestId($type = null) {
         if($type) return uniqid($type.'_');
         return uniqid();
