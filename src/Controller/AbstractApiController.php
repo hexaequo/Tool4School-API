@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Exception\Request\JsonNotParsableException;
+use App\Exception\Request\MissingDataException;
 use App\Exception\Request\WrongContentTypeException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,7 +42,6 @@ abstract class AbstractApiController
             $missingFields[] = $field;
         }
 
-        if(!empty($missingFields)) //TODO: Throw a custom exception
-            throw new \Exception();
+        if(!empty($missingFields)) throw new MissingDataException($missingFields);
     }
 }
