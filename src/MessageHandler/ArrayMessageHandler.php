@@ -15,6 +15,7 @@ class ArrayMessageHandler implements MessageHandlerInterface
 
     public function __invoke(ArrayMessage $message)
     {
+        $message->setReceivedAt(new \DateTime());
         $this->cache->delete($message->getId());
         $this->cache->get($message->getId(),function() use ($message){
             return $message;
