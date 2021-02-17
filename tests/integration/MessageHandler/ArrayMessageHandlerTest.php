@@ -21,7 +21,10 @@ class ArrayMessageHandlerTest extends IntegrationTestCase
         $messageHandler = self::$container->get(ArrayMessageHandler::class);
         $messageHandler($message);
 
-        $this->assertEquals($message,$cache->get('123', function() { return null; }));
+        /** @var ArrayMessage $received */
+        $received = $cache->get('123', function() { return null; });
+        $this->assertEquals($message->getId(),$received->getId());
+        $this->assertEquals($message->getData(),$received->getData());
     }
 
     public function testMessageHandledWithSameKeyBefore() {
@@ -34,10 +37,16 @@ class ArrayMessageHandlerTest extends IntegrationTestCase
         $messageHandler = self::$container->get(ArrayMessageHandler::class);
         $messageHandler($message);
 
-        $this->assertEquals($message,$cache->get('123', function() { return null; }));
+        /** @var ArrayMessage $received */
+        $received = $cache->get('123', function() { return null; });
+        $this->assertEquals($message->getId(),$received->getId());
+        $this->assertEquals($message->getData(),$received->getData());
 
         $messageHandler($message2);
 
-        $this->assertEquals($message2,$cache->get('123', function() { return null; }));
+        /** @var ArrayMessage $received */
+        $received = $cache->get('123', function() { return null; });
+        $this->assertEquals($message2->getId(),$received->getId());
+        $this->assertEquals($message2->getData(),$received->getData());
     }
 }
