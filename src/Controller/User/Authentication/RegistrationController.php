@@ -21,10 +21,9 @@ class RegistrationController extends AbstractApiController
         $id = $this->generateRequestId('register');
         $message = new ArrayMessage($id,$data);
 
-        $envelope = new Envelope($message);
-        $envelope = $envelope->with(... [new AmqpStamp('authentication')]);
+        $stamps = [new AmqpStamp('authentication')];
 
-        $this->dispatchMessage($envelope);
+        $this->dispatchCachedMessage($message,$stamps);
 
         return $this->generateAsyncResponse($id);
     }
