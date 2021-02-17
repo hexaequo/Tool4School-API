@@ -5,6 +5,7 @@ namespace App\Controller\Job;
 
 
 use App\Controller\AbstractApiController;
+use App\Exception\ApiException;
 use App\Messenger\ArrayMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,15 @@ class JobController extends AbstractApiController
         if($jobResponse) {
             if($jobResponse instanceof ArrayMessage){
                 $statusCode = $jobResponse->getData()['code'] ?? 200;
+
+                if(substr($statusCode,0,1) !== '2' and isset($jobResponse->getData()['error'])) {
+                    throw new ApiException($statusCode,json_encode($jobResponse->getData()['error']));
+                }
+                if(($statusCode === '201' or $statusCode === '204') and isset($jobResponse->getData()['Content-Location'])) {
+                    return new Response(null,$statusCode,[
+                        'Content-Location' => $jobResponse->getData()['Content-Location']
+                    ]);
+                }
 
                 return new JsonResponse($jobResponse->getData(),$statusCode);
             }
