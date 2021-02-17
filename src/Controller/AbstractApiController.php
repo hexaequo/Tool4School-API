@@ -5,7 +5,6 @@ namespace App\Controller;
 
 
 use App\Exception\Request\JsonNotParsableException;
-use App\Exception\Request\MissingDataException;
 use App\Exception\Request\WrongContentTypeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,8 +32,9 @@ abstract class AbstractApiController extends AbstractController
     }
 
     public function generateRequestId($type = null) {
-        if($type) return uniqid($type.'_');
-        return uniqid();
+        $id = uniqid();
+        if($type) $id = uniqid($type.'_');
+        return $id;
     }
 
     public function generateAsyncResponse(string $id) {

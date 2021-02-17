@@ -5,8 +5,7 @@ namespace App\Controller\User\Authentication;
 
 
 use App\Controller\AbstractApiController;
-use App\Messenger\JsonMessage;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Messenger\ArrayMessage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Symfony\Component\Messenger\Envelope;
@@ -19,7 +18,7 @@ class RegistrationController extends AbstractApiController
         $data = $this->getJsonContent($request);
 
         $id = $this->generateRequestId('register');
-        $message = new JsonMessage($id,$data);
+        $message = new ArrayMessage($id,$data);
 
         $envelope = new Envelope($message);
         $envelope = $envelope->with(... [new AmqpStamp('authentication')]);
