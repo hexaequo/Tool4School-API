@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\functional\User\Authentication;
+namespace App\Tests\functional\Controller\User\Authentication;
 
 use App\Messenger\ArrayMessage;
 use App\Tests\functional\FunctionalTestCase;

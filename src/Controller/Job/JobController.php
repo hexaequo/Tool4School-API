@@ -24,16 +24,20 @@ class JobController extends AbstractApiController
                 if(substr($statusCode,0,1) !== '2' and isset($jobResponse->getData()['error'])) {
                     throw new ApiException($statusCode,json_encode($jobResponse->getData()['error']));
                 }
-                if(($statusCode === '201' or $statusCode === '204') and isset($jobResponse->getData()['Content-Location'])) {
+
+                if(isset($jobResponse->getData()['Content-Location'])) {
                     return new Response(null,$statusCode,[
                         'Content-Location' => $jobResponse->getData()['Content-Location']
                     ]);
                 }
 
-                return new JsonResponse($jobResponse->getData(),$statusCode);
+                $data = $jobResponse->getData();
+                if(isset($data['code'])) unset($data['code']);
+
+                return new JsonResponse($data,$statusCode);
             }
             else {
-                return new JsonResponse(['error'=>'Unknown',500]);
+                return new JsonResponse(['error'=>'Unknown'],500);
             }
         }
         return new Response(null,202);

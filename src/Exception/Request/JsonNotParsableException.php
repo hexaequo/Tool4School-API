@@ -4,9 +4,9 @@
 namespace App\Exception\Request;
 
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Exception\ApiException;
 
-class JsonNotParsableException extends HttpException
+class JsonNotParsableException extends ApiException
 {
     public function __construct()
     {

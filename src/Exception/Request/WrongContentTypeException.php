@@ -4,9 +4,10 @@
 namespace App\Exception\Request;
 
 
+use App\Exception\ApiException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class WrongContentTypeException extends HttpException
+class WrongContentTypeException extends ApiException
 {
     public function __construct(string $expectedContentType)
     {
