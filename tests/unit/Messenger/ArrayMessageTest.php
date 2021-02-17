@@ -3,21 +3,13 @@
 
 namespace App\Tests\unit\Messenger;
 
-use App\Messenger\ArrayMessageIn;
-use App\Messenger\ArrayMessageOut;
+use App\Messenger\ArrayMessage;
 use App\Tests\unit\UnitTestCase;
 
 class ArrayMessageTest extends UnitTestCase
 {
-    public function testArrayMessageInDataIsCorrect() {
-        $message = new ArrayMessageIn('testid',['value'=>'test']);
-
-        $this->assertEquals($message->getId(),'testid');
-        $this->assertEquals($message->getData(),['value'=>'test']);
-    }
-
-    public function testArrayMessageOutDataIsCorrect() {
-        $message = new ArrayMessageOut('testid',['value'=>'test']);
+    public function testArrayMessageDataIsCorrect() {
+        $message = new ArrayMessage('testid',['value'=>'test']);
 
         $this->assertEquals($message->getId(),'testid');
         $this->assertEquals($message->getData(),['value'=>'test']);
