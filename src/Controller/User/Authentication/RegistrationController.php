@@ -16,6 +16,7 @@ class RegistrationController extends AbstractApiController
     #[Route("/register", methods: ['POST'])]
     public function register(Request $request) {
         $data = $this->getJsonContent($request);
+        $data = array_merge($data,['action' => 'register']);
 
         $id = $this->generateRequestId('register');
         $message = new ArrayMessage($id,$data);
