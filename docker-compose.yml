@@ -34,6 +34,7 @@ services:
       - t4s
     depends_on:
       - t4s_api_postgres
+      - t4s_rabbitmq
 
   t4s_api_nginx:
     container_name: t4s_api_nginx
@@ -47,3 +48,16 @@ services:
       - t4s_api_php
     networks:
       - t4s
+
+
+  t4s_rabbitmq:
+    container_name: t4s_rabbitmq
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "15672:15672"
+    networks:
+      - t4s
+
