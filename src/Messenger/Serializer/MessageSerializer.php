@@ -4,10 +4,13 @@
 namespace App\Messenger\Serializer;
 
 
+use App\Exception\Request\JsonNotParsableException;
 use App\Messenger\ArrayMessage;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Exception\MissingConstructorArgumentsException;
 
 class MessageSerializer implements SerializerInterface
 {
@@ -20,16 +23,12 @@ class MessageSerializer implements SerializerInterface
         $body = $encodedEnvelope['body'];
         $headers = $encodedEnvelope['headers'];
 
-        $data = json_decode($body, true);
-
-        if(!$data) throw new MessageDecodingFailedException('Invalid json');
-
-        if(isset($data['id']) and isset($data['data'])) {
-            $message = new ArrayMessage($data['id'],$data['data']);
+        try {
+            $message = $this->serializer->deserialize($body,ArrayMessage::class,'json');
+        } catch (ExceptionInterface $e) {
+            throw new JsonNotParsableException();
         }
-        else {
-            $message = new ArrayMessage(uniqid(),$data);
-        }
+
         $envelope = new Envelope($message);
 
         $stamps = [];
