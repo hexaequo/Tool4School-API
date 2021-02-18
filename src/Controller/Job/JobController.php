@@ -26,7 +26,9 @@ class JobController extends AbstractApiController
                 $statusCode = 200;
                 if($jobResponse->isEnded() and ($authenticationJobResponse === null or $authenticationJobResponse->isEnded())) {
                     $data = $jobResponse->getData();
-                    if($authenticationJobResponse->getData()['code'] === '401') $data = $authenticationJobResponse->getData();
+                    if($authenticationJobResponse and $authenticationJobResponse->getData()['code'] === '401')
+                        $data = $authenticationJobResponse->getData();
+
                     if(isset($data['code'])) {
                         $statusCode = $data['code'];
                         unset($data['code']);

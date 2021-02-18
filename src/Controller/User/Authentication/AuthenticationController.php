@@ -15,7 +15,7 @@ class AuthenticationController extends AbstractApiController
     #[Route("/login", methods: ["POST"])]
     public function login(Request $request) {
         $data = $this->getJsonContent($request);
-        $data = array_merge($data,['action' => 'register']);
+        $data = array_merge($data,['action' => 'jwt_get']);
 
         $id = $this->generateRequestId('jwt_get');
         $message = new ArrayMessage($id,$data);
