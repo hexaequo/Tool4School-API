@@ -13,7 +13,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 class ArrayMessageHandlerTest extends IntegrationTestCase
 {
     public function testMessageHandled() {
-        $message = new TestArrayMessageIn('123',['test'=>true]);
+        $message = TestArrayMessageIn::createMessage('123',['test'=>true]);
 
         /** @var FilesystemAdapter $cache */
         $cache = self::$container->get('cache.app');
@@ -28,8 +28,8 @@ class ArrayMessageHandlerTest extends IntegrationTestCase
     }
 
     public function testMessageHandledWithSameKeyBefore() {
-        $message = new TestArrayMessageIn('123',['test'=>true]);
-        $message2 = new TestArrayMessageIn('123',['aaa'=>'bbb']);
+        $message = TestArrayMessageIn::createMessage('123',['test'=>true]);
+        $message2 = TestArrayMessageIn::createMessage('123',['aaa'=>'bbb']);
 
         /** @var FilesystemAdapter $cache */
         $cache = self::$container->get('cache.app');

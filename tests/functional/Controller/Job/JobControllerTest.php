@@ -22,7 +22,7 @@ class JobControllerTest extends FunctionalTestCase
         $id = uniqid('testError_');
         /** @var ArrayMessage $message */
         $message = $cache->get($id,function() use ($id) {
-            return new ArrayMessage($id,[
+            return ArrayMessage::createMessage($id,[
                 'code' => 400,
                 'error' => 'Test error'
             ]);
@@ -49,7 +49,7 @@ class JobControllerTest extends FunctionalTestCase
         $cache = $this->getCache();
         $id = uniqid('testError_');
         $cache->get($id,function() use ($id) {
-            $message = new ArrayMessage($id,[
+            $message = ArrayMessage::createMessage($id,[
                 'code' => 400,
                 'error' => 'Test error'
             ]);
@@ -72,7 +72,7 @@ class JobControllerTest extends FunctionalTestCase
         $cache = $this->getCache();
         $id = uniqid('testError_');
         $cache->get($id,function() use ($id) {
-            $message = new ArrayMessage($id,[
+            $message = ArrayMessage::createMessage($id,[
                 'code' => 401,
                 'error' => [
                     'title' => 'Test error',
@@ -101,7 +101,7 @@ class JobControllerTest extends FunctionalTestCase
         $cache = $this->getCache();
         $id = uniqid('testContentLocation_');
         $cache->get($id,function() use ($id) {
-            $message = new ArrayMessage($id,[
+            $message = ArrayMessage::createMessage($id,[
                 'code' => 201,
                 'Content-Location' => '/test'
             ]);
@@ -121,7 +121,7 @@ class JobControllerTest extends FunctionalTestCase
         $cache = $this->getCache();
         $id = uniqid('testContentLocation_');
         $cache->get($id,function() use ($id) {
-            $message = new ArrayMessage($id,[
+            $message = ArrayMessage::createMessage($id,[
                 'code' => 200,
                 'data' => [1,2,3]
             ]);

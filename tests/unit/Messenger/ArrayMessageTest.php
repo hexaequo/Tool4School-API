@@ -9,7 +9,7 @@ use App\Tests\unit\UnitTestCase;
 class ArrayMessageTest extends UnitTestCase
 {
     public function testArrayMessageDataIsCorrect() {
-        $message = new ArrayMessage('testid',['value'=>'test']);
+        $message = ArrayMessage::createMessage('testid',['value'=>'test']);
 
         $this->assertEquals('testid',$message->getId());
         $this->assertEquals(['value'=>'test'],$message->getData());
@@ -20,7 +20,7 @@ class ArrayMessageTest extends UnitTestCase
     }
 
     public function testDates() {
-        $message = new ArrayMessage('testid',['value'=>'test']);
+        $message = ArrayMessage::createMessage('testid',['value'=>'test']);
 
         $sentDate = new \DateTime();
         $message->setSentAt($sentDate);
