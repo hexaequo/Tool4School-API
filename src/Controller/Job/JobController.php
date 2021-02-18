@@ -18,12 +18,15 @@ class JobController extends AbstractApiController
     #[Route("/job/{id}", methods: ['GET'])]
     public function getJob(string $id, CacheInterface $cache, SerializerInterface $serializer) {
         $jobResponse = $cache->get($id,function() { return null; });
+        /** @var ArrayMessage|null $authenticationJobResponse */
+        $authenticationJobResponse = $cache->get($id.'_authentication',function() { return null; });
         if($jobResponse) {
             if($jobResponse instanceof ArrayMessage){
                 $headers = ['Content-Type'=>'application/json'];
                 $statusCode = 200;
-                if($jobResponse->isEnded()) {
+                if($jobResponse->isEnded() and ($authenticationJobResponse === null or $authenticationJobResponse->isEnded())) {
                     $data = $jobResponse->getData();
+                    if($authenticationJobResponse->getData()['code'] === '401') $data = $authenticationJobResponse->getData();
                     if(isset($data['code'])) {
                         $statusCode = $data['code'];
                         unset($data['code']);
