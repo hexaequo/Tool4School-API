@@ -23,10 +23,10 @@ class JobController extends AbstractApiController
         if($jobResponse) {
             if($jobResponse instanceof ArrayMessage){
                 $headers = ['Content-Type'=>'application/json'];
-                $statusCode = 200;
+                $statusCode = Response::HTTP_OK;
                 if($jobResponse->isEnded() and ($authenticationJobResponse === null or $authenticationJobResponse->isEnded())) {
                     $data = $jobResponse->getData();
-                    if($authenticationJobResponse and $authenticationJobResponse->getData()['code'] === '401')
+                    if($authenticationJobResponse and $authenticationJobResponse->getData()['code'] === Response::HTTP_UNAUTHORIZED)
                         $data = $authenticationJobResponse->getData();
 
                     if(isset($data['code'])) {
@@ -42,7 +42,7 @@ class JobController extends AbstractApiController
                     $jobResponse->setData($data);
                 }
                 else {
-                    $statusCode = 202;
+                    $statusCode = Response::HTTP_ACCEPTED;
                     $jobResponse->setData([]);
                 }
 
@@ -53,9 +53,9 @@ class JobController extends AbstractApiController
                 );
             }
             else {
-                return new JsonResponse(['error'=>'Unknown'],500);
+                return new JsonResponse(['error'=>'Unknown'],Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
-        return new Response(null,404);
+        return new Response(null,Response::HTTP_NOT_FOUND);
     }
 }
