@@ -5,6 +5,8 @@ namespace App\Controller;
 
 
 use App\Exception\Request\JsonNotParsableException;
+use App\Exception\Request\MalformedHeaderException;
+use App\Exception\Request\MissingHeaderException;
 use App\Exception\Request\WrongContentTypeException;
 use App\Messenger\ArrayMessage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,5 +62,15 @@ abstract class AbstractApiController extends AbstractController
         });
 
         return parent::dispatchMessage($message, $stamps);
+    }
+
+    public function getBearerToken(Request $request): string {
+        if(!$request->headers->has('Authorization')) {
+            throw new MissingHeaderException('Authorization');
+        }
+        if(!preg_match('/^Bearer ([A-Za-z0-9-_.]+)$/',$request->headers->get('Authorization'),$token)) {
+            throw new MalformedHeaderException('Authorization','Bearer <token>');
+        }
+        return $token[1];
     }
 }
