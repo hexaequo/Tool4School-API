@@ -19,7 +19,7 @@ class RegistrationController extends AbstractApiController
         $data = array_merge($data,['action' => 'register']);
 
         $id = $this->generateRequestId('register');
-        $message = ArrayMessage::createMessage($id,$data);
+        $message = new ArrayMessage($id,$data);
 
         $stamps = [new AmqpStamp('authentication')];
 

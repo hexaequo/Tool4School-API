@@ -55,7 +55,7 @@ class MessageSerializerTest extends UnitTestCase
     }
 
     public function testEncode() {
-        $message = ArrayMessage::createMessage('abc',['test'=>123]);
+        $message = new ArrayMessage('abc',['test'=>123]);
         $sentAt = $message->getSentAt();
 
         $envelope = new Envelope($message);
